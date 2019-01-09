@@ -1,3 +1,5 @@
+//SERVER SIDE JavaScript
+
 const path = require('path'); //Built-in node module
 const http = require('http'); //Built-in node module
 const express = require('express');
@@ -14,6 +16,16 @@ app.use(express.static(publicPath));
 
 io.on('connection', (socket) => {
     console.log('New user connected.');
+
+    socket.emit('newMessage', {
+        from: "mike@example.com",
+        text: "Hey. What's going on?",
+        createdAt: 123
+    });
+
+    socket.on('createMessage', (message) => {
+        console.log(`createMessage from ${message.from}`, message);
+    });
 
     socket.on('disconnect', () => {
         console.log('Client disconnected.');
